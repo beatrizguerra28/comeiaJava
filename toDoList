@@ -1,0 +1,13 @@
+pacote com.beatrizcode.todolist
+
+importar  org.junit.jupiter.api.Test ;
+importar  org.springframework.boot.test.context.SpringBootTest ;
+
+@SpringBootTest
+class  TodolistApplicationTests
+
+	@Teste
+	void  contextLoads () {
+	}
+
+Term
