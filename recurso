@@ -1,0 +1,4 @@
+
+pacote com.beatrizcode.todolist.repository;
+ interface  pública TaskRepository {
+}
