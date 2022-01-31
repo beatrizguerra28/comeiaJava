@@ -1,0 +1,37 @@
+importar  lombok.Getter ;
+importar  lombok.Setter ;
+import  lombok.ToString ;
+import  org.hibernate.annotations.CreationTimestamp ;
+import  org.hibernate.annotations.UpdateTimestamp ;
+import  javax.persistence.* ;
+import  java.util.Date ;
+@Entidade
+@Table ( nome  =  " tarefas " )
+@Normatizador
+@Getter
+@Para sequenciar
+ classe  pública Tarefa {
+    @Eu ia
+    @GeneratedValue ( strategy  =  GenerationType . IDENTITY )
+      ID longo privado ;
+      
+    @Column ( nullable  =  false )
+     título da string privada ;
+     
+    @Column ( nullable  =  false )
+     descrição de string privada ;
+     
+     
+    @Column ( nullable  =  false )
+     data limite privada ;
+     
+    @CreationTimestamp
+    
+    @Column ( name  =  " created_at " , nullable  =  false , atualizável  =  false )
+    
+    privado  Data de criaçãoEm;
+    @UpdateTimestamp
+    
+    @Column ( name  =  " updated_at " )
+    privada   Data atualizadaEm;
+}
