@@ -1,23 +1,100 @@
-# Compiled class file
-*.class
+import  java.net.* ;
+import  java.io.* ;
+import  java.nio.channels.* ;
+importar  java.util.Properties ;
 
-# Log file
-*.log
+public  class  MavenWrapperDownloader {
 
-# BlueJ files
-*.ctxt
+    private  static  final  String  WRAPPER_VERSION  =  " 0.5.6 " ;
+    /**
+     * URL padrão para download do maven-wrapper.jar, se nenhum 'downloadUrl' for fornecido.
+     */
+    private  static  final  String  DEFAULT_DOWNLOAD_URL  =  " https://repo.maven.apache.org/maven2/io/takari/maven-wrapper/ "
+        +  WRAPPER_VERSION  +  " /maven-wrapper- "  +  WRAPPER_VERSION  +  " .jar " ;
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+    /**
+     * Caminho para o arquivo maven-wrapper.properties, que pode conter uma propriedade downloadUrl para
+     * use em vez do padrão.
+     */
+    private  estático  final  String  MAVEN_WRAPPER_PROPERTIES_PATH  =
+            " .mvn/wrapper/maven-wrapper.properties " ;
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+    /**
+     * Caminho onde o maven-wrapper.jar será salvo.
+     */
+    private  estático  final  String  MAVEN_WRAPPER_JAR_PATH  =
+            " .mvn/wrapper/maven-wrapper.jar " ;
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+    /**
+     * Nome da propriedade que deve ser usada para substituir o URL de download padrão para o wrapper.
+     */
+    private  static  final  String  PROPERTY_NAME_WRAPPER_URL  =  " wrapperUrl " ;
+
+    public  static  void  main ( String  args []) {
+        Sistema . fora . println( " - Downloader iniciado " );
+        Arquivo baseDirectory =  new  File (args[ 0 ]);
+        Sistema . fora . println( " - Usando o diretório base: "  + baseDirectory . getAbsolutePath());
+
+        // Se o maven-wrapper.properties existir, leia-o e verifique se ele contém um
+        // parâmetro wrapperUrl.
+        Arquivo mavenWrapperPropertyFile =  novo  arquivo (baseDirectory, MAVEN_WRAPPER_PROPERTIES_PATH );
+        String URL =  DEFAULT_DOWNLOAD_URL ;
+        if (mavenWrapperPropertyFile . existe()) {
+            FileInputStream mavenWrapperPropertyFileInputStream =  null ;
+            tente {
+                mavenWrapperPropertyFileInputStream =  new  FileInputStream (mavenWrapperPropertyFile);
+                Propriedades mavenWrapperProperties =  new  Propriedades ();
+                mavenWrapperProperties . load(mavenWrapperPropertyFileInputStream);
+                url = mavenWrapperProperties . getProperty( PROPERTY_NAME_WRAPPER_URL , url);
+            } catch ( IOException e) {
+                Sistema . fora . println( " - ERRO carregando ' "  +  MAVEN_WRAPPER_PROPERTIES_PATH  +  " ' " );
+            } finalmente {
+                tente {
+                    if (mavenWrapperPropertyFileInputStream !=  null ) {
+                        mavenWrapperPropertyFileInputStream . Fechar();
+                    }
+                } catch ( IOException e) {
+                    // Ignorar...
+                }
+            }
+        }
+        Sistema . fora . println( " - Baixando de: "  + url);
+
+        Arquivo outputFile =  new  File (baseDirectory . getAbsolutePath(), MAVEN_WRAPPER_JAR_PATH );
+        if ( ! outputFile . getParentFile() .exist( ) ) {
+            if ( ! outputFile . getParentFile() . mkdirs()) {
+                Sistema . fora . println(
+                        " - ERRO ao criar o diretório de saída ' "  + outputFile . getParentFile() . getAbsolutePath() +  " ' " );
+            }
+        }
+        Sistema . fora . println( " - Baixando para: "  + outputFile . getAbsolutePath());
+        tente {
+            downloadFileFromURL(url, outputFile);
+            Sistema . fora . println( " Concluído " );
+            Sistema . saída( 0 );
+        } catch ( Throwable e) {
+            Sistema . fora . println( " - Erro ao baixar " );
+            e . printStackTrace();
+            Sistema . saída( 1 );
+        }
+    }
+
+    private  static  void  downloadFileFromURL ( String  urlString , destino do arquivo  ) lança Exception { 
+        if ( System . getenv( " MVNW_USERNAME " ) !=  null  &&  System . getenv( " MVNW_PASSWORD " ) !=  null ) {
+            String nome de usuário =  System . getenv( " MVNW_USERNAME " );
+            char [] senha =  System . getenv( " MVNW_PASSWORD " ) . toCharArray();
+            Autenticador . setDefault( new  Autenticador () {
+                @Sobrepor
+                protected  PasswordAuthentication  getPasswordAuthentication () {
+                    retornar  nova  PasswordAuthentication (nome de usuário, senha);
+                }
+            });
+        }
+        URL do site =  nova  URL (urlString);
+        ReadableByteChannel rbc;
+        rbc =  Canais . newChannel(site . openStream());
+        FileOutputStream fos =  novo  FileOutputStream (destino);
+        fo . getCanal() . transferFrom(rbc, 0 , Longo . MAX_VALUE );
+        fo . Fechar();
+        rbc . Fechar();
+    }
